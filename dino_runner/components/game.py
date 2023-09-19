@@ -8,6 +8,7 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 
 
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -24,7 +25,7 @@ class Game:
         self.y_pos_bg = 380
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
-        self.power_up_manager = PowerUpManager()        
+        self.power_up_manager = PowerUpManager()
 
     def execute(self):
         self.running = True
@@ -33,18 +34,19 @@ class Game:
                 self.show_menu()
         pygame.display.quit()
         pygame.quit()
-
+    
     def run(self):
+        # Game loop: events - update - draw
         self.playing = True
         self.game_speed = 20
-        self.score = 0        
+        self.score = 0
         self.obstacle_manager.reset_obstacles()
-        self.power_up_manager.reset_power_ups()        
+        self.power_up_manager.reset_power_ups()
         while self.playing:
             self.events()
             self.update()
             self.draw()
-
+    
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,25 +54,26 @@ class Game:
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
+        self.player.update(user_input, self.obstacle_manager.obstacles)  # Passe a lista de obstáculos como argumento
         self.obstacle_manager.update(self)
         self.update_score()
-        self.power_up_manager.update(self)        
+        self.power_up_manager.update(self)
 
     def update_score(self):
         self.score += 1
         if self.score % 100 == 0:
             self.game_speed += 5
-
+    
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))  # "#FFFFFF"
+        self.screen.fill((255, 255, 255)) # "#FFFFFF"
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
         self.draw_power_up_time()
         self.power_up_manager.draw(self.screen)
+        #pygame.display.update()
         pygame.display.flip()
 
     def draw_background(self):
@@ -81,7 +84,7 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-
+    
     def draw_score(self):
         draw_message_component(
             f"Score: {self.score}",
@@ -103,13 +106,13 @@ class Game:
                 )
             else:
                 self.player.has_power_up = False
-                self.player.type = DEFAULT_TYPE        
+                self.player.type = DEFAULT_TYPE
 
     def show_menu(self):
         self.screen.fill((255, 255, 255))
         half_screen_height = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
-
+        
         if self.death_count == 0:
            draw_message_component("Press any key to start", self.screen)
         else:
@@ -124,17 +127,24 @@ class Game:
                 self.screen,
                 pos_y_center=half_screen_height - 100
             )
-            self.screen.blit(ICON, (half_screen_width - 40, half_screen_height - 40))            
+            self.screen.blit(ICON, (half_screen_width - 40, half_screen_height - 40))
+            # TAREFA: CRIAR TELA DE RESTART
+            #  CRIAR MÉTODO PARA REMOVER REPETIÇÃO DE CÓDIGO PARA ESCREVER TEXTO
 
-        pygame.display.update()
+            # Escrever "Press any key to restart"
+            # Escrever o acumulado de death_count
+            # Escrever o Score atingido naquela partida
+            ## RESETAR:
+            ##  score
+            ##  game_speed
+        pygame.display.update() # .flip()
         self.handle_events_on_menu()
-
+    
     def handle_events_on_menu(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
                 self.running = False
             elif event.type == pygame.KEYDOWN:
-                self.score = 0
-                self.game_speed = 20
+                
                 self.run()

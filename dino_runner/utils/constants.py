@@ -61,9 +61,22 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
+CLOCK_RUNNING = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
+]
+
+CLOCK_DUCKING = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
+]
+
+CLOCK_JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJump.png"))
+
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
+CLOCK = pygame.image.load(os.path.join(IMG_DIR, 'Other/Clock.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
@@ -71,3 +84,5 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
+HAMMER_TYPE = "hammer"
+CLOCK_TYPE = "clock"
